@@ -17,8 +17,8 @@ To get started with the AI Chat App, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/yourusername/ai-chat-app.git
-   cd ai-chat-app
+   git clone https://github.com/dizzpy/Gemini-Ai-ChatApp.git
+   cd ai_chat_app
    ```
 
 2. **Add Your Gemini API Key**:
