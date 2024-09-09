@@ -1,4 +1,6 @@
+import 'package:ai_chat_app/const/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -41,9 +43,9 @@ class InputWidget extends StatelessWidget {
                 color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(24),
               ),
-              child: const Icon(
-                Icons.send,
-                color: Colors.white,
+              child: SvgPicture.asset(
+                AssetsIcons.send,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
           ),

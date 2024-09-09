@@ -20,13 +20,14 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'AI Chat App',
       theme: ThemeData(
-        colorSchemeSeed: Colors.blue,
+        colorSchemeSeed: Colors.green,
         useMaterial3: true,
       ),
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: Colors.green,
           brightness: Brightness.dark,
+          background: Colors.black38,
         ),
       ),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,

@@ -1,7 +1,10 @@
 import 'package:ai_chat_app/components/input_widget.dart';
 import 'package:ai_chat_app/components/message_widget.dart';
 import 'package:ai_chat_app/const/api_key.dart';
+import 'package:ai_chat_app/const/assets.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class HomePage extends StatefulWidget {
@@ -86,13 +89,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("AI Chat App"),
         leading: IconButton(
-          icon: Icon(widget.isDarkMode ? Icons.dark_mode : Icons.light_mode),
+          icon: SvgPicture.asset(
+            widget.isDarkMode ? AssetsIcons.moon : AssetsIcons.sun,
+            // color: Colors.black,
+          ),
           onPressed: widget.toggleTheme,
         ),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.chat),
+            icon: SvgPicture.asset(
+              AssetsIcons.newChat,
+            ),
             onPressed: _startNewChat,
           ),
         ],
