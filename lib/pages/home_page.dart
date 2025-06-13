@@ -155,105 +155,202 @@ class _HomePageState extends State<HomePage>
   void _showApiKeyDialog() {
     final TextEditingController controller =
         TextEditingController(text: _apiKey);
+    bool isObscured = true;
 
     showDialog(
       context: context,
       builder: (context) {
         final theme = Theme.of(context);
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          title: Row(
-            children: [
-              Icon(Icons.key, color: theme.colorScheme.primary),
-              const SizedBox(width: 10),
-              const Text('Manage API Key'),
-            ],
-          ),
-          content: Container(
-            constraints: const BoxConstraints(minWidth: 400),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Enter your Gemini API key below:',
-                  style: theme.textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                    hintText: 'Enter API Key',
-                    prefixIcon: const Icon(Icons.vpn_key),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    filled: true,
-                    fillColor:
-                        theme.colorScheme.surfaceVariant.withOpacity(0.3),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Your API key is stored securely on your device',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.close),
-              label: const Text('Cancel'),
-              style: TextButton.styleFrom(
-                foregroundColor: theme.colorScheme.error,
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              backgroundColor: theme.colorScheme.surface,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
               ),
-            ),
-            if (_apiKey != null)
-              TextButton.icon(
-                onPressed: () {
-                  _deleteApiKey();
-                  Navigator.of(context).pop();
-                },
-                icon: const Icon(Icons.delete),
-                label: const Text('Delete'),
-                style: TextButton.styleFrom(
-                  foregroundColor: theme.colorScheme.error,
-                ),
-              ),
-            FilledButton.icon(
-              onPressed: () {
-                if (controller.text.isEmpty) {
-                  DelightToastBar(
-                    builder: (context) => const Card(
-                      child: ListTile(
-                        leading: Icon(Icons.error, color: Colors.red),
-                        title: Text(
-                          "Please enter an API key",
-                          style: TextStyle(fontWeight: FontWeight.w700),
+              contentPadding: EdgeInsets.zero,
+              content: Container(
+                width: 400,
+                padding: const EdgeInsets.all(0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Header
+                    Container(
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surface,
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(24),
                         ),
                       ),
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primary.withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.key_rounded,
+                              size: 32,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Gemini API Key',
+                            style: theme.textTheme.headlineSmall?.copyWith(
+                              color: theme.colorScheme.onSurface,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ).show(context);
-                  return;
-                }
-                _saveApiKey(controller.text);
-                Navigator.of(context).pop();
-              },
-              icon: const Icon(Icons.save),
-              label: const Text('Save'),
-              style: FilledButton.styleFrom(
-                backgroundColor: theme.colorScheme.primary,
+                    // Content
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: controller,
+                            obscureText: isObscured,
+                            decoration: InputDecoration(
+                              hintText: 'Enter your API key',
+                              filled: true,
+                              fillColor: theme.colorScheme.surfaceVariant
+                                  .withOpacity(0.3),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide.none,
+                              ),
+                              prefixIcon: Icon(
+                                Icons.vpn_key_rounded,
+                                color: theme.colorScheme.primary,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  isObscured
+                                      ? Icons.visibility_off
+                                      : Icons.visibility,
+                                  color: theme.colorScheme.primary,
+                                ),
+                                onPressed: () =>
+                                    setState(() => isObscured = !isObscured),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.primaryContainer
+                                  .withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: theme.colorScheme.primary
+                                        .withOpacity(0.1),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.lock_rounded,
+                                    size: 16,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    'Your API key is securely stored on your device',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text(
+                                  'Cancel',
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              if (_apiKey != null)
+                                TextButton.icon(
+                                  onPressed: () {
+                                    _deleteApiKey();
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(
+                                    Icons.delete_rounded,
+                                    color: theme.colorScheme.error,
+                                    size: 20,
+                                  ),
+                                  label: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: theme.colorScheme.error,
+                                    ),
+                                  ),
+                                ),
+                              const SizedBox(width: 8),
+                              FilledButton.icon(
+                                onPressed: () {
+                                  if (controller.text.isEmpty) {
+                                    DelightToastBar(
+                                      builder: (context) => const Card(
+                                        child: ListTile(
+                                          leading: Icon(Icons.error,
+                                              color: Colors.red),
+                                          title: Text(
+                                            "Please enter an API key",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ),
+                                      ),
+                                    ).show(context);
+                                    return;
+                                  }
+                                  _saveApiKey(controller.text);
+                                  Navigator.of(context).pop();
+                                },
+                                icon: const Icon(Icons.check_rounded, size: 20),
+                                label: const Text('Save'),
+                                style: FilledButton.styleFrom(
+                                  backgroundColor: theme.colorScheme.primary,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            );
+          },
         );
       },
     );
@@ -504,7 +601,12 @@ class _HomePageState extends State<HomePage>
             onPressed: _startNewChat,
           ),
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: SvgPicture.asset(
+              AssetsIcons.settings,
+              height: 24,
+              width: 24,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             onPressed: _showApiKeyDialog,
           ),
         ],

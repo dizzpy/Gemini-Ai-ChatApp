@@ -5,6 +5,7 @@ class AssetsIcons {
 
   // chat icons
   static const String newChat = 'assets/message-add.svg';
+  static const String settings = 'assets/settings.svg';
 
   // send icon
   static const String send = 'assets/arrow-up.svg';
