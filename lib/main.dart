@@ -18,14 +18,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'AI Chat App',
+      title: 'Zyra',
       theme: ThemeData(
-        colorSchemeSeed: Colors.green,
+        colorSchemeSeed: Colors.lightBlueAccent,
         useMaterial3: true,
       ),
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
+          seedColor: Colors.blue,
           brightness: Brightness.dark,
           background: Colors.black38,
         ),

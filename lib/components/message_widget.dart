@@ -14,6 +14,8 @@ class MessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final messageText = isAIMessage ? message.substring(4) : message;
+
     return Align(
       alignment: isAIMessage ? Alignment.centerLeft : Alignment.centerRight,
       child: Padding(
@@ -44,24 +46,27 @@ class MessageWidget extends StatelessWidget {
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-            child: isAIMessage
-                ? MarkdownBody(
-                    data: message.substring(4),
-                    selectable: true,
-                    styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
+            child: SelectableRegion(
+              focusNode: FocusNode(),
+              selectionControls: MaterialTextSelectionControls(),
+              child: isAIMessage
+                  ? MarkdownBody(
+                      data: messageText,
+                      styleSheet: MarkdownStyleSheet(
+                        p: TextStyle(
+                          fontSize: 16,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    )
+                  : Text(
+                      messageText,
+                      style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        color: theme.colorScheme.onPrimaryContainer,
                       ),
                     ),
-                  )
-                : SelectableText(
-                    message,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    ),
-                  ),
+            ),
           ),
         ),
       ),

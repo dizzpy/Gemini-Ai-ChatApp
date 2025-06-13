@@ -388,7 +388,7 @@ class _HomePageState extends State<HomePage>
     FocusScope.of(context).unfocus();
 
     setState(() {
-      _messages.add("You: ${_controller.text}");
+      _messages.add(_controller.text);
       _messages.add("AI: Typing...");
       _isTyping = true;
     });
@@ -410,8 +410,8 @@ class _HomePageState extends State<HomePage>
       );
 
       final chatHistory = _messages
-          .where((msg) => msg.startsWith("You: ") || msg.startsWith("AI: "))
-          .map((msg) => Content.text(msg.substring(4)))
+          .map((msg) =>
+              Content.text(msg.startsWith("AI: ") ? msg.substring(4) : msg))
           .toList();
 
       final chat = model.startChat(
@@ -487,7 +487,7 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("AI Chat App"),
+        title: const Text("Zyra"),
         leading: IconButton(
           icon: SvgPicture.asset(
             widget.isDarkMode ? AssetsIcons.moon : AssetsIcons.sun,
