@@ -1,5 +1,5 @@
 name: ai_chat_app
-description: "A new Flutter project."
+description: "Zyra - An AI Chat Assistant powered by Google's Gemini"
 publish_to: "none"
 version: 0.1.0
 
@@ -19,9 +19,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  flutter_launcher_icons: "^0.14.4"
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/zyraicon.png"
+  remove_alpha_ios: true

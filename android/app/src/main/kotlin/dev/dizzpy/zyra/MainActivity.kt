@@ -1,4 +1,4 @@
-package com.example.ai_chat_app
+package dev.dizzpy.zyra
 
 import io.flutter.embedding.android.FlutterActivity
 
