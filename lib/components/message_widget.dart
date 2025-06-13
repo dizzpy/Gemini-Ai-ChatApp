@@ -13,20 +13,37 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Align(
       alignment: isAIMessage ? Alignment.centerLeft : Alignment.centerRight,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0),
-        child: Card(
-          elevation: 2,
-          color: isAIMessage
-              ? Theme.of(context).colorScheme.surfaceVariant
-              : Theme.of(context).colorScheme.primaryContainer,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+        padding: EdgeInsets.only(
+          left: isAIMessage ? 8.0 : 64.0,
+          right: isAIMessage ? 64.0 : 8.0,
+          top: 4.0,
+          bottom: 4.0,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: isAIMessage
+                ? theme.colorScheme.surfaceVariant.withOpacity(0.8)
+                : theme.colorScheme.primaryContainer.withOpacity(0.9),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(isAIMessage ? 8 : 16),
+              topRight: Radius.circular(isAIMessage ? 16 : 8),
+              bottomLeft: const Radius.circular(16),
+              bottomRight: const Radius.circular(16),
+            ),
+            border: Border.all(
+              color: isAIMessage
+                  ? theme.colorScheme.surfaceVariant
+                  : theme.colorScheme.primaryContainer,
+              width: 1,
+            ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: isAIMessage
                 ? MarkdownBody(
                     data: message.substring(4),

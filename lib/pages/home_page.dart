@@ -384,6 +384,9 @@ class _HomePageState extends State<HomePage>
   Future<void> _sendMessage() async {
     if (_controller.text.isEmpty) return;
 
+    // Hide keyboard
+    FocusScope.of(context).unfocus();
+
     setState(() {
       _messages.add("You: ${_controller.text}");
       _messages.add("AI: Typing...");
@@ -436,9 +439,48 @@ class _HomePageState extends State<HomePage>
   }
 
   void _startNewChat() {
-    setState(() {
-      _messages.clear();
-    });
+    final theme = Theme.of(context);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: theme.colorScheme.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        title: Row(
+          children: [
+            Icon(Icons.warning_rounded, color: Colors.orange),
+            const SizedBox(width: 10),
+            const Text('Clear Chat'),
+          ],
+        ),
+        content: const Text(
+            'Are you sure you want to clear the current chat? This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: theme.colorScheme.onSurface),
+            ),
+          ),
+          FilledButton.icon(
+            onPressed: () {
+              setState(() {
+                _messages.clear();
+              });
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.delete_outline),
+            label: const Text('Clear'),
+            style: FilledButton.styleFrom(
+              backgroundColor: theme.colorScheme.errorContainer,
+              foregroundColor: theme.colorScheme.onErrorContainer,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
